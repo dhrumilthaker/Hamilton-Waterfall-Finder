@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Final Project</title>
+    <!--    <link rel="stylesheet" type="text/css" href="mystyle.css">-->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- jQuary File -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type='text/javascript' src="myscript.js"></script>
+    <style>
+        /* Center the loader */
+        #loader {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 1;
+            width: 150px;
+            height: 150px;
+            margin: -75px 0 0 -75px;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 200px;
+            height: 200px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        #list {
+            align-content: center;
+            align-items: center;
+            left: 50%;
+            margin-left: -50%;
+            display: inline-block;
+            position: absolute;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Add animation to "page content" */
+        .animate-bottom {
+            position: relative;
+            -webkit-animation-name: animatebottom;
+            -webkit-animation-duration: 1s;
+            animation-name: animatebottom;
+            animation-duration: 1s
+        }
+
+        @-webkit-keyframes animatebottom {
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+
+            to {
+                bottom: 0px;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatebottom {
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+
+            to {
+                bottom: 0;
+                opacity: 1
+            }
+        }
+
+        #myDiv {
+            display: none;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<html>
+
+<body>
+
+
+    <div class="container">
+        <h1 style='text-align: center;'>WaterFall Finder</h1>
+        <div class="row">
+            <div class="container">
+                <form class="form-group" id="empForm">
+                    <div class="form-group row">
+                        <label for="usr" class="col-sm-2 col-form-label">Name:</label>
+                        <div class="col-sm-10">
+                            <input type="search" class="form-control" id="search_txt" name="usr">
+                            <div class="valid-feedback" id="usrDiv"></div>
+                        </div>
+                    </div>
+                </form>
+                <br>
+                <br>
+            </div>
+
+            <div class="col">
+                <div class="container">
+                    <div id="findingLoc">
+                        <h4>
+                            <p id="status" style="text-align: center"> </p>
+                        </h4>
+                    </div>
+                    <div class="loader" id="loader"></div>
+                    <div class="card-body">
+                        <ul class="list-unstyled" style="align-content: center; text-align: center">
+                            <div id="fallList" style="width: 400px; height: 530px; overflow-y: auto; margin-bottom: 10px;"></div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div id='myMap' style='width: 600px; height: 600px;'></div>
+                <div id='error'></div>
+            </div>
+            <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=Ag-9UmaOu3hCq2d2bxFTnt2ryCnUmD81o8_dEMuHCqbAFJ0TMwiY1IuhzPUjRaC6&callback=loadMapScenario' async defer></script>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <button type="button" class="btn btn-secondary btn-lg" onClick="window.location='info.php';">Adding Waterfall</button>
+                <!--                <button type="button" class="btn btn-secondary btn-lg" onclick="">Large button</button>-->
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function() {
+
+        document.getElementById('status').innerHTML = "Finding your location";
+        navigator.geolocation.getCurrentPosition(function(position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            document.getElementById('loader').style.display = "none";
+            document.getElementById('status').innerHTML = "";
+            document.getElementById('status').innerHTML = "Finding waterfall";
+            document.getElementById('loader').style.display = "block";
+
+
+            $.ajax({
+                method: "GET",
+                url: "data.php",
+            }).done(function(data) {
+                var result = JSON.parse(data);
+
+                document.getElementById('loader').style.display = "none";
+                document.getElementById('status').innerHTML = "";
+                document.getElementById('status').innerHTML = "Found these Waterfalls!";
+
+                for (var i = 0; i < 10; i++) {
+                    $("#fallList").append("<li><h6 class='mt-0 mb-1'>" + result[i].NAME + "</h6>" + 'Community: ' + result[i].COMMUNITY + ' | Access: ' + result[i].ACCESS_FROM + ' | Ranking: ' + result[i].RANKING + "<br></li><br>")
+
+
+
+                }
+            });
+
+
+
+        });
+    });
+
+    $(function() {
+
+$('#search_txt').keyup(function() {
+
+
+    var txt = $(this).val();
+    if (txt != '') {
+        $.ajax({
+
+            url: "search.php",
+            method: "GET",
+            data: { search: txt },
+            dataType: "text",
+            success: function(data) {
+                $('#fallList').html(data);
+            }
+
+        });
+
+
+    } else {
+        $('#search_rslt').html('');
+        $.ajax({
+
+            url: "search.php",
+            method: "GET",
+            data: { search: txt },
+            dataType: "text",
+            success: function(data) {
+                $('#fallList').html(data);
+            }
+
+        });
+    }
+
+
+});
+
+});
+
+
+</script>
+
+
+</html>
