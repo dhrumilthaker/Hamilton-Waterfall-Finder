@@ -8,7 +8,7 @@
                     method: "GET",
                     url: "data.php",
                 }).done(function (data) {
-                    result = JSON.parse(data);
+                    result = JSON.parse(JSON.stringify(data));
                 });
 
             });
@@ -104,9 +104,9 @@
                     visible: false
                 })
 
-                console.log(result.length);
+                //console.log(result.length);
 
-                //var databaseLength = Object.keys(result).length;
+                var databaseLength = Object.keys(result).length;
 
                 // Loop over the result data
                 for (i = 0; i < result.length; i++) {
