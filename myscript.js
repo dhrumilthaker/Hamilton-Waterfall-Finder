@@ -106,7 +106,7 @@
 
 
 
-                var databaseLength = Object.keys(result).length;
+                //var databaseLength = Object.keys(result).length;
 
                 // Loop over the result data
                 for (i = 0; i < result.length; i++) {
