@@ -104,7 +104,7 @@
                     visible: false
                 })
 
-
+                console.log(result.length);
 
                 //var databaseLength = Object.keys(result).length;
 

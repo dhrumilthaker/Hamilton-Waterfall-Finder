@@ -21,21 +21,5 @@ if($result->rowCount() > 0 && !empty($result)) // first error occurs here
 /* send a JSON encded array to client */
 echo json_encode($result_array);
 
-
-
-//$lat = filter_input(INPUT_POST, "LATITUDE", FILTER_SANITIZE_SPECIAL_CHARS);
-//$lng = filter_input(INPUT_POST, "LONGITUDE", FILTER_SANITIZE_SPECIAL_CHARS);
-    
-//$searchCommand = SELECT id, ( 3959 * acos( cos( radians(37) ) * cos( radians( lat ) )
-//  * cos( radians( lng ) - radians(-122) ) + sin( radians(37) ) 
-//  * sin( radians( lat ) ) ) ) AS distance
-//FROM TABLE 2
-//HAVING distance < 25
-//ORDER BY distance LIMIT 0 , 20;
-
-
-
-
-
     
 ?>
