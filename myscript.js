@@ -8,7 +8,7 @@
                     method: "GET",
                     url: "data.php",
                 }).done(function (data) {
-                    result = JSON.parse(JSON.stringify(data));
+                    result = JSON.parse(data);
                 });
 
             });
@@ -104,12 +104,11 @@
                     visible: false
                 })
 
-                //console.log(result.length);
 
                 var databaseLength = Object.keys(result).length;
 
                 // Loop over the result data
-                for (i = 0; i < result.length; i++) {
+                for (i = 0; i < databaseLength; i++) {
 
 
                     // create a new location for this result 
