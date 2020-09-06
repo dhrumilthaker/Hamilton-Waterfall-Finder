@@ -21,5 +21,5 @@ if($result->rowCount() > 0 && !empty($result)) // first error occurs here
 /* send a JSON encded array to client */
 echo json_encode($result_array);
 
-    
+$dbh->close();    
 ?>
