@@ -106,10 +106,10 @@
 
 
 
-                var databaseLength = Object.keys(result).length;
+                //var databaseLength = Object.keys(result).length;
 
                 // Loop over the result data
-                for (i = 0; i < databaseLength; i++) {
+                for (i = 0; i < result.length; i++) {
 
 
                     // create a new location for this result 

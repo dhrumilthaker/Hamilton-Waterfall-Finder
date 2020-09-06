@@ -9,12 +9,12 @@ $('#search_txt').keyup(function() {
         $('#search_rslt').html('');
         $.ajax({
 
-            url: "fetch.php",
+            url: "search.php",
             method: "GET",
             data: { search: txt },
             dataType: "text",
             success: function(data) {
-                $('#result').html(data);
+                $('#fallList').html(data);
             }
 
         });
